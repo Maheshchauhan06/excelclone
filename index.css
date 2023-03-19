@@ -39,3 +39,8 @@ th {
   background-color: #ccc;
   font-weight: bold;
 }
+.btn {
+  padding: 0.4rem;
+  color: black;
+  background: white;
+}
