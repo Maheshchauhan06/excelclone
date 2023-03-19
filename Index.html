@@ -24,42 +24,63 @@
             Array.from({ length: 100 }, () => "")
           )
         );
+        const [formData, setFormData] = React.useState([]);
 
         const handleCellChange = (event, row, col) => {
           const { value } = event.target;
           const newTableData = [...tableData];
           newTableData[row][col] = value;
           setTableData(newTableData);
+
+          const newFormData = [...formData];
+          newFormData[row] = {
+            ...newFormData[row],
+            [`Column ${col + 1}`]: value,
+          };
+          setFormData(newFormData);
+        };
+
+        const handleSubmit = () => {
+          // Here we can use the formData state variable to send the form data to an API
+          console.log(formData);
+          alert("Data submitted to API");
         };
 
         return (
-          <table>
-            <thead>
-              <tr>
-                {cols.map((col) => (
-                  <th key={col}>Column {col}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((row) => (
-                <tr key={row}>
+          <div>
+            <table>
+              <thead>
+                <tr>
+                  <th>
+                    {" "}
+                    <button onClick={handleSubmit}>Submit</button>
+                  </th>
                   {cols.map((col) => (
-                    <td key={`${row}-${col}`}>
-                      <input
-                        className="input"
-                        type="text"
-                        value={tableData[row - 1][col - 1]}
-                        onChange={(event) =>
-                          handleCellChange(event, row - 1, col - 1)
-                        }
-                      />
-                    </td>
+                    <th key={col}>Column {col}</th>
                   ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {rows.map((row) => (
+                  <tr key={row}>
+                    <th>Row {row}</th>
+                    {cols.map((col) => (
+                      <td key={`${row}-${col}`}>
+                        <input
+                          className="input"
+                          type="text"
+                          value={tableData[row - 1][col - 1]}
+                          onChange={(event) =>
+                            handleCellChange(event, row - 1, col - 1)
+                          }
+                        />
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         );
       };
 
